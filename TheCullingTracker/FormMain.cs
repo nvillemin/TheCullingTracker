@@ -19,7 +19,7 @@ namespace TheCullingTracker {
 		// Initialize the DataGridView
 		private void InitializeDGV() {
 			for(int i = 0; i < 15; ++i) {
-				this.DGV_Game.Rows.Add("----------------", 0.0f, 0.0f, 0, 0, "Soon", "Soon");
+				this.DGV_Game.Rows.Add("----------------", 0.0f, 0.0f, 0, 0);
 			}
 			this.nextDgvRow = 0;
 			this.playerIndex = new Dictionary<string, int>();
@@ -38,7 +38,7 @@ namespace TheCullingTracker {
 			MethodInvoker invoker = delegate {
 				this.playerIndex.Clear();
 				for(int i = 0; i < 15; ++i) {
-					this.DGV_Game.Rows[i].SetValues("---", 0.0f, 0.0f, 0, 0, "Soon", "Soon");
+					this.DGV_Game.Rows[i].SetValues("---", 0.0f, 0.0f, 0, 0);
 				}
 				this.nextDgvRow = 0;
 			};

@@ -30,8 +30,6 @@
 			this.DmgFrom = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Games = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Kills = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Deaths = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.WinPercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.DGV_Game)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,9 +62,7 @@
             this.DmgTo,
             this.DmgFrom,
             this.Games,
-            this.Kills,
-            this.Deaths,
-            this.WinPercent});
+            this.Kills});
 			this.DGV_Game.Location = new System.Drawing.Point(6, 38);
 			this.DGV_Game.MultiSelect = false;
 			this.DGV_Game.Name = "DGV_Game";
@@ -132,26 +128,6 @@
 			this.Kills.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.Kills.Width = 31;
 			// 
-			// Deaths
-			// 
-			this.Deaths.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.Deaths.HeaderText = "Deaths";
-			this.Deaths.Name = "Deaths";
-			this.Deaths.ReadOnly = true;
-			this.Deaths.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.Deaths.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.Deaths.Width = 47;
-			// 
-			// WinPercent
-			// 
-			this.WinPercent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.WinPercent.HeaderText = "Win%";
-			this.WinPercent.Name = "WinPercent";
-			this.WinPercent.ReadOnly = true;
-			this.WinPercent.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.WinPercent.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.WinPercent.Width = 40;
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,8 +154,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn DmgFrom;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Games;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Kills;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Deaths;
-		private System.Windows.Forms.DataGridViewTextBoxColumn WinPercent;
 	}
 }
 
