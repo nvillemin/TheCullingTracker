@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TheCullingTracker {
-	class LogLine {
+	public class LogLine {
 		public enum LineType { Other, Open, Close, NewState, NewPlayer, DmgTo, DmgFrom, Kill }
 
 		public LineType lineType { get; private set; }

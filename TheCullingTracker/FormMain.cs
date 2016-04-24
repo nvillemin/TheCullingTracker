@@ -34,7 +34,9 @@ namespace TheCullingTracker {
 			MethodInvoker invoker = delegate {
 				this.LB_Status.Text = status;
 			};
-			this.BeginInvoke(invoker);
+			if(this.Visible) {
+				this.BeginInvoke(invoker);
+			}
 		}
 
 		// Clear the DGV to prepare for a new game
@@ -46,7 +48,9 @@ namespace TheCullingTracker {
 				}
 				this.nextDgvRow = 0;
 			};
-			this.BeginInvoke(invoker);
+			if(this.Visible) {
+				this.BeginInvoke(invoker);
+			}
 		}
 
 		// Add a player to the DGV
@@ -59,7 +63,9 @@ namespace TheCullingTracker {
 				this.ResizeForm();
 				nextDgvRow++;
 			};
-			this.BeginInvoke(invoker);
+			if(this.Visible) {
+				this.BeginInvoke(invoker);
+			}
 		}
 
 		// Add damage value to the according player
@@ -70,7 +76,9 @@ namespace TheCullingTracker {
 				float newValue = (float)Math.Round((Decimal)(oldValue + damage), 2, MidpointRounding.AwayFromZero);
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[cellIndex].Value = newValue;
 			};
-			this.BeginInvoke(invoker);
+			if(this.Visible) {
+				this.BeginInvoke(invoker);
+			}
 		}
 
 		// Add kill value to the according player
@@ -79,7 +87,9 @@ namespace TheCullingTracker {
 				int oldValue = (int)this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value;
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value = oldValue + 1;
 			};
-			this.BeginInvoke(invoker);
+			if(this.Visible) {
+				this.BeginInvoke(invoker);
+			}
 		}
 
 		// Resize the form according to the DGV
