@@ -3,17 +3,21 @@ using System.Windows.Forms;
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
 namespace TheCullingTracker {
 	public partial class FormMain : Form {
 		private Parser parser;
 		private int nextDgvRow;
 		private Dictionary<string, int> playerIndex;
+		private String path = "C:\\Users\\" + Environment.UserName + "\\AppData\\Local\\Victory\\Saved\\Logs";
 
 		public FormMain() {
 			InitializeComponent();
+			this.CheckLogsPath();
 			this.InitializeDGV();
-			this.parser = new Parser(this);
+			this.parser = new Parser(this, this.path);
 		}
 
 		// Initialize the DataGridView
@@ -93,9 +97,58 @@ namespace TheCullingTracker {
 			this.Size = new Size(maxWidth + 33, 404);
 		}
 
+		// Check the logs path and ask the user if it's not correct
+		private void CheckLogsPath() {
+			if(!Directory.Exists(Directory.GetCurrentDirectory() + Constants.DataFolder)) {
+				// No data, create the settings file
+				Directory.CreateDirectory(Constants.DataFolder.Substring(1));
+				this.CreateSettingsFile();
+			} else {
+				if(!File.Exists(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.SettingsFile)) {
+					this.CreateSettingsFile();
+				} else {
+					// Load the path from the settings file
+					XmlDocument dataDoc = new XmlDocument();
+					using(FileStream fs = new FileStream(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.SettingsFile, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+						dataDoc.Load(fs);
+						this.path = dataDoc.InnerText;
+					}
+				}
+			}
+
+			// Check the log path
+			while(!File.Exists(this.path + Constants.LogFile)) {
+				MessageBox.Show("The tracker couldn't locate your log files.\nPlease select the folder where \"" + Constants.LogFile.Substring(1) + "\" is located.", "Couldn't locate log files");
+				if(this.folderBrowserDialog.ShowDialog() == DialogResult.OK) {
+					this.path = this.folderBrowserDialog.SelectedPath;
+					XmlDocument dataDoc = new XmlDocument();
+					using(FileStream fs = new FileStream(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.SettingsFile, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+						dataDoc.Load(fs);
+						dataDoc.SelectSingleNode("path").InnerXml = this.path;
+						dataDoc.Save(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile);
+					}
+				} else {
+					// No log file path, no tracker
+					Environment.Exit(0);
+				}
+			}
+		}
+
+		// Create a new file storing the settings like the path for the log file
+		private void CreateSettingsFile() {
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Indent = true;
+			using(XmlWriter writer = XmlWriter.Create(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.SettingsFile, settings)) {
+				writer.WriteStartDocument();
+				writer.WriteElementString("path", this.path);
+			}
+		}
+
 		// When closing the form
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e) {
-			this.parser.Stop();
+			if(this.parser != null) {
+				this.parser.Stop();
+			}
 		}
 	}
 }

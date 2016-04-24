@@ -30,6 +30,7 @@
 			this.DmgFrom = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Games = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Kills = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			((System.ComponentModel.ISupportInitialize)(this.DGV_Game)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -37,7 +38,7 @@
 			// 
 			this.LB_Status.Dock = System.Windows.Forms.DockStyle.Top;
 			this.LB_Status.Font = new System.Drawing.Font("Trebuchet MS", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.LB_Status.ForeColor = System.Drawing.Color.Teal;
+			this.LB_Status.ForeColor = System.Drawing.Color.DimGray;
 			this.LB_Status.Location = new System.Drawing.Point(0, 0);
 			this.LB_Status.Name = "LB_Status";
 			this.LB_Status.Size = new System.Drawing.Size(345, 35);
@@ -154,6 +155,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn DmgFrom;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Games;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Kills;
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
 	}
 }
 

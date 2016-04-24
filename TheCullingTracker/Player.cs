@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TheCullingTracker {
-	[Serializable]
-	class Player {
-		public int games { get; private set; }
-		public int kills { get; private set; }
-		private int deaths; 
+	public class Player {
+		public string name { get; set; }
+		public int games { get; set; }
+		public int kills { get; set; }
 
 		public Player() {
-			this.games = this.kills = this.deaths = 0;
+			this.games = this.kills = 0;
+		}
+
+		public Player(string n) : this() {
+			this.name = n;
 		}
 
 		// You killed this guy

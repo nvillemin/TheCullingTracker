@@ -8,38 +8,51 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace TheCullingTracker {
 	class Parser {
-		private const String PATH = "C:\\Users\\Nath\\AppData\\Local\\Victory\\Saved\\Logs\\Victory.log";
-		private const int TICK = 250;
+		private const int TICK = 250; // ms before checking the log again
 
+		private String path;
 		private bool isActive;
 		private FormMain form;
 		private LogLine lastLine;
-		private Data savedData;
+		private Dictionary<string, Player> players;
 
-		public Parser(FormMain f) {
+		public Parser(FormMain f, string p) {
 			this.isActive = true;
 			this.form = f;
+			this.path = p;
+			this.players = new Dictionary<string, Player>();
 			this.LoadData();
 			Thread parserThread = new Thread(this.Run);
+			parserThread.IsBackground = true;
 			parserThread.Start();
+		}
+
+		// Store data
+		private void SaveData() {
+			XmlSerializer writer = new XmlSerializer(typeof(List<Player>));
+			using(FileStream fs = File.Open(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile, FileMode.Open, FileAccess.Write, FileShare.None)) {
+				writer.Serialize(fs, this.players.Values.ToList());
+			}
 		}
 
 		// Load data stored previously
 		private void LoadData() {
-			if(!Directory.Exists(Directory.GetCurrentDirectory() + "/data")) {
-				// No data, create the data folder and load old games data
-				Directory.CreateDirectory("data");
-				File.Create(Directory.GetCurrentDirectory() + "/data/players").Close();
-				this.savedData = new Data();
-				this.CreateOldData();
+			if(!File.Exists(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile)) {
+				using(XmlWriter writer = XmlWriter.Create(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile)) {
+					writer.WriteStartDocument();
+				}
 			} else {
-				// Load data
-				using(Stream stream = new FileStream(Directory.GetCurrentDirectory() + "/data/players", FileMode.Open, FileAccess.Read, FileShare.Read)) {
-					IFormatter formatter = new BinaryFormatter();
-					this.savedData = (Data)formatter.Deserialize(stream);
+				XmlSerializer writer = new XmlSerializer(typeof(List<Player>));
+				using(FileStream fs = File.Open(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+					List<Player> players = (List<Player>)writer.Deserialize(fs);
+					foreach(Player player in players) {
+						this.players.Add(player.name, player);
+					}
 				}
 			}
 		}
@@ -49,18 +62,10 @@ namespace TheCullingTracker {
 			// TODO
 		}
 
-		// Store data
-		private void SerializeData() {
-			using(Stream stream = new FileStream(Directory.GetCurrentDirectory() + "/data/players", FileMode.Create, FileAccess.Write, FileShare.None)) {
-				IFormatter formatter = new BinaryFormatter();
-				formatter.Serialize(stream, this.savedData);
-			}
-		}
-
 		// Start the parser to check the log file
 		internal void Run() {
 			try {
-				FileStream fs = File.Open(PATH, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+				FileStream fs = File.Open(path + Constants.LogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 				StreamReader sr = new StreamReader(fs);
 				string line;
 
@@ -75,32 +80,33 @@ namespace TheCullingTracker {
 						switch(logLine.lineType) {
 							// New state: Playing or MainMenu
 							case LogLine.LineType.NewState:
-								this.form.SetStatus(logLine.state.ToUpper());
 								if(logLine.state == "Playing") {
 									// New game
 									this.form.ClearDGV();
+									this.form.SetStatus("IN GAME");
 								} else {
 									// Back to main menu
-									this.SerializeData();
+									this.SaveData();
 									if(this.lastLine.lineType == LogLine.LineType.DmgFrom) {
-										// TODO record death
+										// TODO record death?
 									}
+									this.form.SetStatus("IN MAIN MENU");
 								}
 								break;
 
 							// New player recorded at the start of the game
 							case LogLine.LineType.NewPlayer:
 								int games = 0, kills = 0;
-								if(this.savedData.players.ContainsKey(logLine.player)) {
+								if(this.players.ContainsKey(logLine.player)) {
 									// Already played with this player before, load data
-									Player playerData = this.savedData.players[logLine.player];
+									Player playerData = this.players[logLine.player];
 									games = playerData.games;
 									kills = playerData.kills;
 								} else {
 									// Never played with this player, create data
-									this.savedData.players.Add(logLine.player, new Player());
+									this.players.Add(logLine.player, new Player(logLine.player));
 								}
-								this.savedData.players[logLine.player].AddGame();
+								this.players[logLine.player].AddGame();
 								this.form.AddPlayer(logLine.player, games, kills);
 								break;
 
@@ -109,7 +115,7 @@ namespace TheCullingTracker {
 								this.form.AddDamage(logLine.player, logLine.damage, false);
 								if(this.lastLine.lineType == LogLine.LineType.Kill) {
 									// You killed someone, what a beast
-									this.savedData.players[logLine.player].AddKill();
+									this.players[logLine.player].AddKill();
 									this.form.AddKill(logLine.player);
 								}
 								break;
@@ -124,7 +130,7 @@ namespace TheCullingTracker {
 
 							// End of the file, save the data
 							case LogLine.LineType.Close:
-								this.SerializeData();
+								this.SaveData();
 								break;
 						}
 

@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
