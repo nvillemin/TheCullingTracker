@@ -41,7 +41,7 @@
 			this.LB_Status.ForeColor = System.Drawing.Color.DimGray;
 			this.LB_Status.Location = new System.Drawing.Point(0, 0);
 			this.LB_Status.Name = "LB_Status";
-			this.LB_Status.Size = new System.Drawing.Size(345, 35);
+			this.LB_Status.Size = new System.Drawing.Size(244, 35);
 			this.LB_Status.TabIndex = 0;
 			this.LB_Status.Text = "STARTING...";
 			this.LB_Status.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -133,7 +133,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(345, 362);
+			this.ClientSize = new System.Drawing.Size(244, 362);
 			this.Controls.Add(this.DGV_Game);
 			this.Controls.Add(this.LB_Status);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

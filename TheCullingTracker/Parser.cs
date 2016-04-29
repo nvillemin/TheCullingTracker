@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 
 namespace TheCullingTracker {
 	public class Parser {
-		private const int TICK = 250; // ms before checking the log again
+		private const int TICK = 1000; // ms before checking the log again
 
 		private String path;
 		private bool isActive;
