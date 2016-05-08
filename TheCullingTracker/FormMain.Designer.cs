@@ -31,7 +31,11 @@
 			this.Games = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Kills = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.MS_Main = new System.Windows.Forms.MenuStrip();
+			this.loadDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.DGV_Game)).BeginInit();
+			this.MS_Main.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// LB_Status
@@ -39,7 +43,7 @@
 			this.LB_Status.Dock = System.Windows.Forms.DockStyle.Top;
 			this.LB_Status.Font = new System.Drawing.Font("Trebuchet MS", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.LB_Status.ForeColor = System.Drawing.Color.DimGray;
-			this.LB_Status.Location = new System.Drawing.Point(0, 0);
+			this.LB_Status.Location = new System.Drawing.Point(0, 24);
 			this.LB_Status.Name = "LB_Status";
 			this.LB_Status.Size = new System.Drawing.Size(244, 35);
 			this.LB_Status.TabIndex = 0;
@@ -64,7 +68,7 @@
             this.DmgFrom,
             this.Games,
             this.Kills});
-			this.DGV_Game.Location = new System.Drawing.Point(6, 38);
+			this.DGV_Game.Location = new System.Drawing.Point(6, 62);
 			this.DGV_Game.MultiSelect = false;
 			this.DGV_Game.Name = "DGV_Game";
 			this.DGV_Game.ReadOnly = true;
@@ -75,7 +79,7 @@
 			this.DGV_Game.RowTemplate.ReadOnly = true;
 			this.DGV_Game.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.DGV_Game.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.DGV_Game.Size = new System.Drawing.Size(442, 318);
+			this.DGV_Game.Size = new System.Drawing.Size(442, 342);
 			this.DGV_Game.TabIndex = 2;
 			// 
 			// PlayerName
@@ -129,21 +133,52 @@
 			this.Kills.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.Kills.Width = 31;
 			// 
+			// MS_Main
+			// 
+			this.MS_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadDataToolStripMenuItem,
+            this.optionsToolStripMenuItem});
+			this.MS_Main.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+			this.MS_Main.Location = new System.Drawing.Point(0, 0);
+			this.MS_Main.Name = "MS_Main";
+			this.MS_Main.Size = new System.Drawing.Size(244, 24);
+			this.MS_Main.TabIndex = 3;
+			this.MS_Main.Text = "Menu";
+			// 
+			// loadDataToolStripMenuItem
+			// 
+			this.loadDataToolStripMenuItem.Name = "loadDataToolStripMenuItem";
+			this.loadDataToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+			this.loadDataToolStripMenuItem.Text = "Load data";
+			this.loadDataToolStripMenuItem.Click += new System.EventHandler(this.loadDataToolStripMenuItem_Click);
+			// 
+			// optionsToolStripMenuItem
+			// 
+			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+			this.optionsToolStripMenuItem.Text = "Options";
+			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(244, 362);
+			this.ClientSize = new System.Drawing.Size(244, 386);
 			this.Controls.Add(this.DGV_Game);
 			this.Controls.Add(this.LB_Status);
+			this.Controls.Add(this.MS_Main);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.MainMenuStrip = this.MS_Main;
 			this.MaximizeBox = false;
 			this.Name = "FormMain";
 			this.ShowIcon = false;
 			this.Text = "The Culling Tracker";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
 			((System.ComponentModel.ISupportInitialize)(this.DGV_Game)).EndInit();
+			this.MS_Main.ResumeLayout(false);
+			this.MS_Main.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -156,6 +191,9 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Games;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Kills;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+		private System.Windows.Forms.MenuStrip MS_Main;
+		private System.Windows.Forms.ToolStripMenuItem loadDataToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 	}
 }
 

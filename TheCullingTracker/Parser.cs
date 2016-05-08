@@ -89,7 +89,6 @@ namespace TheCullingTracker {
 						this.form.SetStatus("IN GAME");
 					} else {
 						// Back to main menu
-						this.SaveData();
 						if(this.lastLine.lineType == LogLine.LineType.DmgFrom) {
 							// TODO record death?
 						}
@@ -131,9 +130,8 @@ namespace TheCullingTracker {
 					}
 					break;
 
-				// End of the file, save the data
+				// End of the file
 				case LogLine.LineType.Close:
-					this.SaveData();
 					break;
 			}
 
@@ -145,6 +143,12 @@ namespace TheCullingTracker {
 		// Stop the parser
 		public void Stop() {
 			this.isActive = false;
+			this.SaveData();
+		}
+
+		// Remove all data
+		public void ResetData() {
+			this.players.Clear();
 		}
 	}
 }

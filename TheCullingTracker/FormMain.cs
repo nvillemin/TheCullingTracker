@@ -105,7 +105,7 @@ namespace TheCullingTracker {
 					maxWidth = rowWidth;
 				}
 			}
-			this.Size = new Size(maxWidth + 33, 404);
+			this.Size = new Size(maxWidth + 33, 428);
 		}
 
 		// Check the logs path and ask the user if it's not correct
@@ -160,6 +160,21 @@ namespace TheCullingTracker {
 			if(this.parser != null) {
 				this.parser.Stop();
 			}
+		}
+
+		// Load data from menu
+		private void loadDataToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.playerIndex.Clear();
+			this.parser.ResetData();
+			this.Visible = false;
+			FormLoading formLoading = new FormLoading(this.parser, this.path);
+			formLoading.ShowDialog();
+			this.Visible = true;
+		}
+
+		// Open options menu
+		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
+			// TODO
 		}
 	}
 }
