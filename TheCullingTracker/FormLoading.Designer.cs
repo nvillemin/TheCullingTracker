@@ -40,7 +40,6 @@
 			// PB_Loading
 			// 
 			this.PB_Loading.Location = new System.Drawing.Point(12, 34);
-			this.PB_Loading.Maximum = 1000;
 			this.PB_Loading.Name = "PB_Loading";
 			this.PB_Loading.Size = new System.Drawing.Size(179, 23);
 			this.PB_Loading.TabIndex = 1;

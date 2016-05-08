@@ -27,8 +27,13 @@ namespace TheCullingTracker {
 		// Load data from games older than the tracker
 		private void CreateOldData() {
 			string[] fileNames = Directory.GetFiles(this.path, "Victory-backup-*");
-			float progressStep = 1000f / fileNames.Length;
-			float progress = 0f;
+			int nbTotalLines = 0;
+			foreach(string fileName in fileNames) {
+				nbTotalLines += File.ReadLines(fileName).Count();
+			}
+			int linesStep = nbTotalLines / 50;
+			int progress = 0;
+			int nbLines = 0;
 			foreach(string fileName in fileNames) {
 				// Check each backup file
 				using(FileStream fs = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
@@ -39,11 +44,14 @@ namespace TheCullingTracker {
 						line = sr.ReadLine();
 						if(line != null) {
 							this.parser.CheckLogLine(new LogLine(line));
+							nbLines++;
+							if(nbLines >= linesStep) {
+								nbLines = 0;
+								progress += 2;
+								this.SetProgress(progress);
+							}
 						}
 					}
-
-					progress += progressStep;
-					this.SetProgress(Convert.ToInt32(progress));
 				}
 			}
 			this.SetClose();
@@ -55,7 +63,7 @@ namespace TheCullingTracker {
 				this.PB_Loading.Value = progress;
 			};
 			if(this.Visible) {
-				this.BeginInvoke(invoker);
+				this.Invoke(invoker);
 			}
 		}
 
