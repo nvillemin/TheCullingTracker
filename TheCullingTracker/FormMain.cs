@@ -65,7 +65,7 @@ namespace TheCullingTracker {
 				nextDgvRow++;
 			};
 			if(this.Visible) {
-				this.BeginInvoke(invoker);
+				this.Invoke(invoker);
 			}
 		}
 

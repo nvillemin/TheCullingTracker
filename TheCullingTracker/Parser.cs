@@ -34,6 +34,7 @@ namespace TheCullingTracker {
 
 		// Store data
 		private void SaveData() {
+			File.WriteAllText(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile, string.Empty);
 			XmlSerializer writer = new XmlSerializer(typeof(List<Player>));
 			using(FileStream fs = File.Open(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile, FileMode.Open, FileAccess.Write, FileShare.None)) {
 				writer.Serialize(fs, this.players.Values.ToList());
