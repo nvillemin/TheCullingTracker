@@ -60,12 +60,16 @@ namespace TheCullingTracker {
 
 		// Update progress bar
 		private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
-			if(this.PB_Loading.Value > 0) {
-				this.PB_Loading.Value--;
-			}
-			this.PB_Loading.Value = e.ProgressPercentage;
-			if(this.PB_Loading.Value == 100) {
+			// Affecting the value to n+1 and then to n removes the bar animation and makes it faster
+			if(e.ProgressPercentage == 100) {
+				this.PB_Loading.Maximum = 101;
+				this.PB_Loading.Value = 101;
+				this.PB_Loading.Value = 100;
+				this.PB_Loading.Maximum = 100;
 				this.Close();
+			} else {
+				this.PB_Loading.Value = e.ProgressPercentage + 1;
+				this.PB_Loading.Value = e.ProgressPercentage;
 			}
 		}
 	}
