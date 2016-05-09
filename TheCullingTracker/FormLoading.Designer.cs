@@ -26,6 +26,7 @@
 			this.LB_Loading = new System.Windows.Forms.Label();
 			this.PB_Loading = new System.Windows.Forms.ProgressBar();
 			this.BT_Cancel = new System.Windows.Forms.Button();
+			this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
 			this.SuspendLayout();
 			// 
 			// LB_Loading
@@ -42,6 +43,7 @@
 			this.PB_Loading.Location = new System.Drawing.Point(12, 34);
 			this.PB_Loading.Name = "PB_Loading";
 			this.PB_Loading.Size = new System.Drawing.Size(179, 23);
+			this.PB_Loading.Step = 1;
 			this.PB_Loading.TabIndex = 1;
 			// 
 			// BT_Cancel
@@ -53,6 +55,13 @@
 			this.BT_Cancel.Text = "Cancel";
 			this.BT_Cancel.UseVisualStyleBackColor = true;
 			this.BT_Cancel.Click += new System.EventHandler(this.BT_Cancel_Click);
+			// 
+			// backgroundWorker
+			// 
+			this.backgroundWorker.WorkerReportsProgress = true;
+			this.backgroundWorker.WorkerSupportsCancellation = true;
+			this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+			this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
 			// 
 			// FormLoading
 			// 
@@ -81,5 +90,6 @@
 		private System.Windows.Forms.ProgressBar PB_Loading;
 		private System.Windows.Forms.Button BT_Cancel;
 		private System.Windows.Forms.Label LB_Loading;
+		private System.ComponentModel.BackgroundWorker backgroundWorker;
 	}
 }

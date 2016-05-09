@@ -1,31 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TheCullingTracker {
 	public partial class FormLoading : Form {
 		private Parser parser;
 		private string path;
-		private Thread loadingThread;
 
 		public FormLoading(Parser parser, string path) {
 			this.parser = parser;
 			this.path = path;
-			this.loadingThread = new Thread(this.CreateOldData);
-			loadingThread.IsBackground = true;
 			InitializeComponent();
 		}
 
+		// Cancel the loading
+		private void BT_Cancel_Click(object sender, EventArgs e) {
+			this.backgroundWorker.CancelAsync();
+			this.Close();
+		}
+
+		// When the form is shown, start a thread to create the data
+		private void FormLoading_Shown(object sender, EventArgs e) {
+			this.backgroundWorker.RunWorkerAsync();
+		}
+
 		// Load data from games older than the tracker
-		private void CreateOldData() {
+		private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e) {
 			string[] fileNames = Directory.GetFiles(this.path, "Victory-backup-*");
 			int nbTotalLines = 0;
 			foreach(string fileName in fileNames) {
@@ -40,7 +42,7 @@ namespace TheCullingTracker {
 					StreamReader sr = new StreamReader(fs);
 					string line;
 
-					while(!sr.EndOfStream) {
+					while(!sr.EndOfStream && !this.backgroundWorker.CancellationPending) {
 						line = sr.ReadLine();
 						if(line != null) {
 							this.parser.CheckLogLine(new LogLine(line));
@@ -48,42 +50,23 @@ namespace TheCullingTracker {
 							if(nbLines >= linesStep) {
 								nbLines = 0;
 								progress += 2;
-								this.SetProgress(progress);
+								this.backgroundWorker.ReportProgress(progress);
 							}
 						}
 					}
 				}
 			}
-			this.SetClose();
 		}
 
-		// Update the progress bar from the thread
-		private void SetProgress(int progress) {
-			MethodInvoker invoker = delegate {
-				this.PB_Loading.Value = progress;
-			};
-			if(this.Visible) {
-				this.Invoke(invoker);
+		// Update progress bar
+		private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+			if(this.PB_Loading.Value > 0) {
+				this.PB_Loading.Value--;
 			}
-		}
-
-		// Close called from the thread
-		private void SetClose() {
-			MethodInvoker invoker = delegate {
+			this.PB_Loading.Value = e.ProgressPercentage;
+			if(this.PB_Loading.Value == 100) {
 				this.Close();
-			};
-			this.BeginInvoke(invoker);
-		}
-
-		// Cancel the loading
-		private void BT_Cancel_Click(object sender, EventArgs e) {
-			this.loadingThread.Abort();
-			this.Close();
-		}
-
-		// When the form is shown, start a thread to create the data
-		private void FormLoading_Shown(object sender, EventArgs e) {
-			this.loadingThread.Start();
+			}
 		}
 	}
 }
