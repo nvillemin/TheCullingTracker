@@ -34,6 +34,8 @@
 			this.MS_Main = new System.Windows.Forms.MenuStrip();
 			this.loadDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.DGV_Game)).BeginInit();
 			this.MS_Main.SuspendLayout();
 			this.SuspendLayout();
@@ -137,7 +139,9 @@
 			// 
 			this.MS_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadDataToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.updateToolStripMenuItem,
+            this.aboutToolStripMenuItem});
 			this.MS_Main.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MS_Main.Location = new System.Drawing.Point(0, 0);
 			this.MS_Main.Name = "MS_Main";
@@ -148,8 +152,8 @@
 			// loadDataToolStripMenuItem
 			// 
 			this.loadDataToolStripMenuItem.Name = "loadDataToolStripMenuItem";
-			this.loadDataToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-			this.loadDataToolStripMenuItem.Text = "Load data";
+			this.loadDataToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+			this.loadDataToolStripMenuItem.Text = "Load";
 			this.loadDataToolStripMenuItem.Click += new System.EventHandler(this.loadDataToolStripMenuItem_Click);
 			// 
 			// optionsToolStripMenuItem
@@ -158,6 +162,20 @@
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+			// 
+			// updateToolStripMenuItem
+			// 
+			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+			this.updateToolStripMenuItem.Text = "Update";
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -194,6 +212,8 @@
 		private System.Windows.Forms.MenuStrip MS_Main;
 		private System.Windows.Forms.ToolStripMenuItem loadDataToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 	}
 }
 

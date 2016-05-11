@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using System.Diagnostics;
 
 namespace TheCullingTracker {
 	public partial class FormMain : Form {
@@ -167,14 +168,23 @@ namespace TheCullingTracker {
 			this.playerIndex.Clear();
 			this.parser.ResetData();
 			this.Visible = false;
-			FormLoading formLoading = new FormLoading(this.parser, this.path);
-			formLoading.ShowDialog();
+			new FormLoading(this.parser, this.path).ShowDialog();
 			this.Visible = true;
 		}
 
 		// Open options menu
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
 			// TODO
+		}
+
+		// Open GitHub latest release
+		private void updateToolStripMenuItem_Click(object sender, EventArgs e) {
+			Process.Start("https://github.com/nvillemin/TheCullingTracker/releases/latest");
+		}
+
+		// Open about form
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+			new FormAbout().ShowDialog();
 		}
 	}
 }
