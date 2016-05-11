@@ -16,7 +16,7 @@ namespace TheCullingTracker {
 		}
 
 		private void LL_Source_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			Process.Start("https://github.com/nvillemin/HitmanStatistics");
+			Process.Start("https://github.com/nvillemin/TheCullingTracker");
 		}
 
 		private void LL_Email_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
