@@ -82,18 +82,21 @@ namespace TheCullingTracker {
 		// Check the log line
 		public void CheckLogLine(LogLine logLine) {
 			switch(logLine.lineType) {
-				// New state: Playing or MainMenu
-				case LogLine.LineType.NewState:
-					if(logLine.state == "Playing") {
-						// New game
-						this.form.ClearDGV();
-						this.form.SetStatus("IN GAME");
-					} else {
-						// Back to main menu
-						if(this.lastLine.lineType == LogLine.LineType.DmgFrom) {
-							// TODO record death?
-						}
-						this.form.SetStatus("IN MAIN MENU");
+				// Wow you just hit someone
+				case LogLine.LineType.DmgTo:
+					this.form.AddDamage(logLine.player, logLine.damage, false);
+					if(this.lastLine.lineType == LogLine.LineType.Kill) {
+						// You killed someone, what a beast
+						this.players[logLine.player].AddKill();
+						this.form.AddKill(logLine.player);
+					}
+					break;
+
+				// Wow you just got hit
+				case LogLine.LineType.DmgFrom:
+					// Unknown player is fall damage so it's not recorded
+					if(logLine.player != "UNKNOWN") {
+						this.form.AddDamage(logLine.player, logLine.damage, true);
 					}
 					break;
 
@@ -113,26 +116,16 @@ namespace TheCullingTracker {
 					this.form.AddPlayer(logLine.player, games, kills);
 					break;
 
-				// Wow you just hit someone
-				case LogLine.LineType.DmgTo:
-					this.form.AddDamage(logLine.player, logLine.damage, false);
-					if(this.lastLine.lineType == LogLine.LineType.Kill) {
-						// You killed someone, what a beast
-						this.players[logLine.player].AddKill();
-						this.form.AddKill(logLine.player);
+				// New state: Playing or MainMenu
+				case LogLine.LineType.NewState:
+					if(logLine.state == "Playing") {
+						// New game
+						this.form.ClearDGV();
+						this.form.SetStatus("IN GAME");
+					} else {
+						// Back to main menu
+						this.form.SetStatus("IN MAIN MENU");
 					}
-					break;
-
-				// Wow you just got hit
-				case LogLine.LineType.DmgFrom:
-					// Unknown player is fall damage so it's not recorded
-					if(logLine.player != "UNKNOWN") {
-						this.form.AddDamage(logLine.player, logLine.damage, true);
-					}
-					break;
-
-				// End of the file
-				case LogLine.LineType.Close:
 					break;
 			}
 

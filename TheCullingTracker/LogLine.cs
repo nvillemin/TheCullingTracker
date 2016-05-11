@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TheCullingTracker {
 	public class LogLine {
-		public enum LineType { Other, Open, Close, NewState, NewPlayer, DmgTo, DmgFrom, Kill }
+		public enum LineType { Other, NewState, NewPlayer, DmgTo, DmgFrom, Kill }
 
 		public LineType lineType { get; private set; }
 		public String state { get; private set; }
@@ -21,33 +21,7 @@ namespace TheCullingTracker {
 
 		// Parse the current log line
 		private void ParseLine(string line) {
-			Match match = Regex.Match(line, "Log file open");
-			if(match.Success) {
-				this.lineType = LineType.Open;
-				return;
-			}
-
-			match = Regex.Match(line, "Log file closed");
-			if(match.Success) {
-				this.lineType = LineType.Close;
-				return;
-			}
-
-			match = Regex.Match(line, "NewState: ([A-Za-z]+)$");
-			if(match.Success) {
-				this.lineType = LineType.NewState;
-				this.state = match.Groups[1].Value;
-				return;
-			}
-
-			match = Regex.Match(line, "for (.+) to Switch_3P$");
-			if(match.Success) {
-				this.lineType = LineType.NewPlayer;
-				this.player = match.Groups[1].Value;
-				return;
-			}
-
-			match = Regex.Match(line, "You Hit (.+) for ([0-9]+\\.[0-9]+) damage");
+			Match match = Regex.Match(line, "]VictoryDamage:Display: You Hit (.+) for ([0-9]+\\.[0-9]+)");
 			if(match.Success) {
 				this.lineType = LineType.DmgTo;
 				this.player = match.Groups[1].Value;
@@ -55,7 +29,7 @@ namespace TheCullingTracker {
 				return;
 			}
 
-			match = Regex.Match(line, "Struck by (.+) for ([0-9]+\\.[0-9]+) damage");
+			match = Regex.Match(line, "]VictoryDamage:Display: Struck by (.+) for ([0-9]+\\.[0-9]+)");
 			if(match.Success) {
 				this.lineType = LineType.DmgFrom;
 				this.player = match.Groups[1].Value;
@@ -63,9 +37,23 @@ namespace TheCullingTracker {
 				return;
 			}
 
-			match = Regex.Match(line, "ACH_FRAG_SOMEONE");
+			match = Regex.Match(line, "]LogShooterWeapon:Warning: UpdatePOVSwitch for (.+) to Switch_3P$");
+			if(match.Success) {
+				this.lineType = LineType.NewPlayer;
+				this.player = match.Groups[1].Value;
+				return;
+			}
+
+			match = Regex.Match(line, "]LogOnline:Verbose: STEAM: WriteObject AchievementId: 'ACH_FRAG_SOMEONE'$");
 			if(match.Success) {
 				this.lineType = LineType.Kill;
+				return;
+			}
+
+			match = Regex.Match(line, "]LogOnline: GotoState: NewState: (Playing|MainMenu)$");
+			if(match.Success) {
+				this.lineType = LineType.NewState;
+				this.state = match.Groups[1].Value;
 				return;
 			}
 
