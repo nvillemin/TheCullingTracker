@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace TheCullingTracker {
 	public partial class FormAbout : Form {
-		private string version = "1.3.0";
+		private string version = "1.3.1";
 
 		public FormAbout() {
 			InitializeComponent();
