@@ -27,7 +27,7 @@ namespace TheCullingTracker {
 			MethodInvoker invoker = delegate {
 				this.LB_Status.Text = status;
 			};
-			if(this.InvokeRequired) {
+			if(this.Visible) {
 				this.Invoke(invoker);
 			}
 		}
@@ -42,7 +42,7 @@ namespace TheCullingTracker {
 				this.DGV_Game.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 				this.ResizeForm();
 			};
-			if(this.InvokeRequired) {
+			if(this.Visible) {
 				this.Invoke(invoker);
 			}
 		}
@@ -55,7 +55,7 @@ namespace TheCullingTracker {
 				this.DGV_Game.Rows.Add(player, 0f, 0f, games, kills);
 				this.ResizeForm();
 			};
-			if(this.InvokeRequired) {
+			if(this.Visible) {
 				this.Invoke(invoker);
 			}
 		}
@@ -68,7 +68,7 @@ namespace TheCullingTracker {
 				float newValue = (float)Math.Round((Decimal)(oldValue + damage), 2, MidpointRounding.AwayFromZero);
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[cellIndex].Value = newValue;
 			};
-			if(this.InvokeRequired) {
+			if(this.Visible) {
 				this.Invoke(invoker);
 			}
 		}
@@ -79,7 +79,7 @@ namespace TheCullingTracker {
 				int oldValue = (int)this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value;
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value = oldValue + 1;
 			};
-			if(this.InvokeRequired) {
+			if(this.Visible) {
 				this.Invoke(invoker);
 			}
 		}
