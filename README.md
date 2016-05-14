@@ -3,8 +3,8 @@ This is a real-time statistics tracker for the game **The Culling**
 
 ##Features
 - Player names
-- Damage dealt to players in this game
-- Damage received by players in this game
+- Damage dealt to players in this game except explosives and bleed
+- Damage received by players in this game except explosives and bleed
 - Number of games shared with players overall
 - Number of player kills overall
 
