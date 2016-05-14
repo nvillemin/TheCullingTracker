@@ -20,12 +20,14 @@ namespace TheCullingTracker {
 		private FormMain form;
 		private LogLine lastLine;
 		private Dictionary<string, Player> players;
+		private List<string> currentPlayers;
 
 		public Parser(FormMain f, string p) {
 			this.isActive = true;
 			this.form = f;
 			this.path = p;
 			this.players = new Dictionary<string, Player>();
+			this.currentPlayers = new List<string>();
 			this.LoadData();
 			Thread parserThread = new Thread(this.Run);
 			parserThread.IsBackground = true;
@@ -85,8 +87,8 @@ namespace TheCullingTracker {
 				// Wow you just hit someone
 				case LogLine.LineType.DmgTo:
 					// Check if we already encountered the player
-					if(!this.form.playerIndex.ContainsKey(logLine.player)) {
-						this.AddPlayer(logLine);
+					if(!this.currentPlayers.Contains(logLine.player)) {
+						this.AddPlayer(logLine.player);
 					}
 
 					this.form.AddDamage(logLine.player, logLine.damage, false);
@@ -102,8 +104,8 @@ namespace TheCullingTracker {
 					// Unknown player is fall damage so it's not recorded
 					if(logLine.player != "UNKNOWN") {
 						// Check if we already encountered the player
-						if(!this.form.playerIndex.ContainsKey(logLine.player)) {
-							this.AddPlayer(logLine);
+						if(!this.currentPlayers.Contains(logLine.player)) {
+							this.AddPlayer(logLine.player);
 						}
 						this.form.AddDamage(logLine.player, logLine.damage, true);
 					}
@@ -111,13 +113,14 @@ namespace TheCullingTracker {
 
 				// New player recorded at the start of the game
 				case LogLine.LineType.NewPlayer:
-					this.AddPlayer(logLine);
+					this.AddPlayer(logLine.player);
 					break;
 
 				// New state: Playing or MainMenu
 				case LogLine.LineType.NewState:
 					if(logLine.state == "Playing") {
 						// New game
+						this.currentPlayers.Clear();
 						this.form.ClearDGV();
 						this.form.SetStatus("IN GAME");
 					} else {
@@ -133,19 +136,20 @@ namespace TheCullingTracker {
 		}
 
 		// Add a new player to the game
-		private void AddPlayer(LogLine logLine) {
+		private void AddPlayer(string player) {
+			this.currentPlayers.Add(player);
 			int games = 0, kills = 0;
-			if(this.players.ContainsKey(logLine.player)) {
+			if(this.players.ContainsKey(player)) {
 				// Already played with this player before, load data
-				Player playerData = this.players[logLine.player];
+				Player playerData = this.players[player];
 				games = playerData.games;
 				kills = playerData.kills;
 			} else {
 				// Never played with this player, create data
-				this.players.Add(logLine.player, new Player(logLine.player));
+				this.players.Add(player, new Player(player));
 			}
-			this.players[logLine.player].AddGame();
-			this.form.AddPlayer(logLine.player, games, kills);
+			this.players[player].AddGame();
+			this.form.AddPlayer(player, games, kills);
 		}
 
 		// Stop the parser

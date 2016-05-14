@@ -28,8 +28,8 @@ namespace TheCullingTracker {
 			MethodInvoker invoker = delegate {
 				this.LB_Status.Text = status;
 			};
-			if(this.Visible) {
-				this.BeginInvoke(invoker);
+			if(this.InvokeRequired) {
+				this.Invoke(invoker);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace TheCullingTracker {
 				this.DGV_Game.Rows.Clear(); 
 				this.ResizeForm();
 			};
-			if(this.Visible) {
+			if(this.InvokeRequired) {
 				this.Invoke(invoker);
 			}
 		}
@@ -50,11 +50,11 @@ namespace TheCullingTracker {
 		public void AddPlayer(string player, int games, int kills) {
 			MethodInvoker invoker = delegate {
 				this.playerIndex.Add(player, nextDgvRow);
+				nextDgvRow++;
 				this.DGV_Game.Rows.Add(player, 0f, 0f, games, kills);
 				this.ResizeForm();
-				nextDgvRow++;
 			};
-			if(this.Visible) {
+			if(this.InvokeRequired) {
 				this.Invoke(invoker);
 			}
 		}
@@ -67,7 +67,7 @@ namespace TheCullingTracker {
 				float newValue = (float)Math.Round((Decimal)(oldValue + damage), 2, MidpointRounding.AwayFromZero);
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[cellIndex].Value = newValue;
 			};
-			if(this.Visible) {
+			if(this.InvokeRequired) {
 				this.Invoke(invoker);
 			}
 		}
@@ -78,7 +78,7 @@ namespace TheCullingTracker {
 				int oldValue = (int)this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value;
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value = oldValue + 1;
 			};
-			if(this.Visible) {
+			if(this.InvokeRequired) {
 				this.Invoke(invoker);
 			}
 		}
