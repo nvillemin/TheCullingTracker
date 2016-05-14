@@ -157,10 +157,5 @@ namespace TheCullingTracker {
 			this.isActive = false;
 			this.SaveData();
 		}
-
-		// Remove all data
-		public void ResetData() {
-			this.players.Clear();
-		}
 	}
 }

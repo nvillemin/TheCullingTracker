@@ -13,7 +13,7 @@ namespace TheCullingTracker {
 
 		private Parser parser;
 		private int nextDgvRow;
-		private String path = "C:\\Users\\" + Environment.UserName + "\\AppData\\Local\\Victory\\Saved\\Logs";
+		private String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Victory\\Saved\\Logs");
 
 		public FormMain() {
 			InitializeComponent();
@@ -156,11 +156,15 @@ namespace TheCullingTracker {
 
 		// Load data from menu
 		private void loadDataToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.parser.Stop();
 			this.playerIndex.Clear();
-			this.parser.ResetData();
-			this.Visible = false;
-			new FormLoading(this.parser, this.path).ShowDialog();
-			this.Visible = true;
+			this.nextDgvRow = 0;
+			if(File.Exists(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile)) {
+				File.Delete(Directory.GetCurrentDirectory() + Constants.DataFolder + Constants.DataFile);
+			}
+			this.Hide();
+			this.parser = new Parser(this, this.path);
+			this.Show();
 		}
 		
 		// Open GitHub latest release
