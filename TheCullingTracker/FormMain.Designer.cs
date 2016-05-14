@@ -46,7 +46,7 @@
 			this.LB_Status.ForeColor = System.Drawing.Color.DimGray;
 			this.LB_Status.Location = new System.Drawing.Point(0, 24);
 			this.LB_Status.Name = "LB_Status";
-			this.LB_Status.Size = new System.Drawing.Size(244, 35);
+			this.LB_Status.Size = new System.Drawing.Size(243, 35);
 			this.LB_Status.TabIndex = 0;
 			this.LB_Status.Text = "STARTING...";
 			this.LB_Status.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -143,7 +143,7 @@
 			this.MS_Main.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MS_Main.Location = new System.Drawing.Point(0, 0);
 			this.MS_Main.Name = "MS_Main";
-			this.MS_Main.Size = new System.Drawing.Size(244, 24);
+			this.MS_Main.Size = new System.Drawing.Size(243, 24);
 			this.MS_Main.TabIndex = 3;
 			this.MS_Main.Text = "Menu";
 			// 
@@ -172,7 +172,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(244, 84);
+			this.ClientSize = new System.Drawing.Size(243, 84);
 			this.Controls.Add(this.DGV_Game);
 			this.Controls.Add(this.LB_Status);
 			this.Controls.Add(this.MS_Main);

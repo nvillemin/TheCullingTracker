@@ -1,11 +1,10 @@
-﻿using System.Threading;
-using System.Windows.Forms;
-using System;
-using System.Drawing;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace TheCullingTracker {
 	public partial class FormMain : Form {
@@ -38,7 +37,9 @@ namespace TheCullingTracker {
 			MethodInvoker invoker = delegate {
 				this.nextDgvRow = 0;
 				this.playerIndex.Clear();
-				this.DGV_Game.Rows.Clear(); 
+				this.DGV_Game.Rows.Clear();
+				this.DGV_Game.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+				this.DGV_Game.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 				this.ResizeForm();
 			};
 			if(this.InvokeRequired) {
@@ -85,7 +86,7 @@ namespace TheCullingTracker {
 
 		// Resize the form according to the DGV
 		private void ResizeForm() {
-			int maxWidth = 250;
+			int maxWidth = 230;
 			int height = 128;
 			foreach(DataGridViewRow row in DGV_Game.Rows) {
 				height += 20;
