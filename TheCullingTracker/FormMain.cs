@@ -177,5 +177,15 @@ namespace TheCullingTracker {
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			new FormAbout().ShowDialog();
 		}
+
+		// Check if the game process is running
+		private void FormMain_Shown(object sender, EventArgs e) {
+			if(Process.GetProcessesByName("Victory").Length == 0) {
+				MessageBox.Show("Please run The Culling before starting the tracker.", "The Culling is not running");
+				this.Close();
+			} else {
+				this.parser.Start();
+			}
+		}
 	}
 }

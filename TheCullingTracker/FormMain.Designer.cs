@@ -183,6 +183,7 @@
 			this.ShowIcon = false;
 			this.Text = "The Culling Tracker";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+			this.Shown += new System.EventHandler(this.FormMain_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.DGV_Game)).EndInit();
 			this.MS_Main.ResumeLayout(false);
 			this.MS_Main.PerformLayout();

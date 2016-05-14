@@ -16,6 +16,7 @@ namespace TheCullingTracker {
 		private LogLine lastLine;
 		private Dictionary<string, Player> players;
 		private List<string> currentPlayers;
+		private Thread parserThread;
 
 		public Parser(FormMain f, string p) {
 			this.isActive = true;
@@ -24,9 +25,8 @@ namespace TheCullingTracker {
 			this.players = new Dictionary<string, Player>();
 			this.currentPlayers = new List<string>();
 			this.LoadData();
-			Thread parserThread = new Thread(this.Run);
-			parserThread.IsBackground = true;
-			parserThread.Start();
+			this.parserThread = new Thread(this.Run);
+			this.parserThread.IsBackground = true;
 		}
 
 		// Store data
@@ -145,6 +145,11 @@ namespace TheCullingTracker {
 			}
 			this.players[player].AddGame();
 			this.form.AddPlayer(player, games, kills);
+		}
+
+		// Start the parser
+		public void Start() {
+			this.parserThread.Start();
 		}
 
 		// Stop the parser
