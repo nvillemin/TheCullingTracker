@@ -9,25 +9,18 @@ using System.Diagnostics;
 
 namespace TheCullingTracker {
 	public partial class FormMain : Form {
+		public Dictionary<string, int> playerIndex { get; private set; }
+
 		private Parser parser;
 		private int nextDgvRow;
-		private Dictionary<string, int> playerIndex;
 		private String path = "C:\\Users\\" + Environment.UserName + "\\AppData\\Local\\Victory\\Saved\\Logs";
 
 		public FormMain() {
 			InitializeComponent();
 			this.CheckLogsPath();
-			this.InitializeDGV();
-			this.parser = new Parser(this, this.path);
-		}
-
-		// Initialize the DataGridView
-		private void InitializeDGV() {
-			for(int i = 0; i < 15; ++i) {
-				this.DGV_Game.Rows.Add("---", 0f, 0f, 0, 0);
-			}
-			this.nextDgvRow = 0;
 			this.playerIndex = new Dictionary<string, int>();
+			this.nextDgvRow = 0;
+			this.parser = new Parser(this, this.path);
 		}
 
 		// Change main status
@@ -43,15 +36,13 @@ namespace TheCullingTracker {
 		// Clear the DGV to prepare for a new game
 		public void ClearDGV() {
 			MethodInvoker invoker = delegate {
-				this.playerIndex.Clear();
-				for(int i = 0; i < 15; ++i) {
-					this.DGV_Game.Rows[i].SetValues("---", 0f, 0f, 0, 0);
-				}
 				this.nextDgvRow = 0;
+				this.playerIndex.Clear();
+				this.DGV_Game.Rows.Clear(); 
 				this.ResizeForm();
 			};
 			if(this.Visible) {
-				this.BeginInvoke(invoker);
+				this.Invoke(invoker);
 			}
 		}
 
@@ -59,9 +50,7 @@ namespace TheCullingTracker {
 		public void AddPlayer(string player, int games, int kills) {
 			MethodInvoker invoker = delegate {
 				this.playerIndex.Add(player, nextDgvRow);
-				this.DGV_Game.Rows[nextDgvRow].Cells[0].Value = player;
-				this.DGV_Game.Rows[nextDgvRow].Cells[3].Value = games;
-				this.DGV_Game.Rows[nextDgvRow].Cells[4].Value = kills;
+				this.DGV_Game.Rows.Add(player, 0f, 0f, games, kills);
 				this.ResizeForm();
 				nextDgvRow++;
 			};
@@ -79,7 +68,7 @@ namespace TheCullingTracker {
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[cellIndex].Value = newValue;
 			};
 			if(this.Visible) {
-				this.BeginInvoke(invoker);
+				this.Invoke(invoker);
 			}
 		}
 
@@ -90,14 +79,16 @@ namespace TheCullingTracker {
 				this.DGV_Game.Rows[this.playerIndex[player]].Cells[4].Value = oldValue + 1;
 			};
 			if(this.Visible) {
-				this.BeginInvoke(invoker);
+				this.Invoke(invoker);
 			}
 		}
 
 		// Resize the form according to the DGV
 		private void ResizeForm() {
-			int maxWidth = 0;
+			int maxWidth = 250;
+			int height = 128;
 			foreach(DataGridViewRow row in DGV_Game.Rows) {
+				height += 20;
 				int rowWidth = 0;
 				foreach(DataGridViewCell cell in row.Cells) {
 					rowWidth += cell.Size.Width;
@@ -106,7 +97,7 @@ namespace TheCullingTracker {
 					maxWidth = rowWidth;
 				}
 			}
-			this.Size = new Size(maxWidth + 33, 428);
+			this.Size = new Size(maxWidth + 33, height);
 		}
 
 		// Check the logs path and ask the user if it's not correct
@@ -171,12 +162,7 @@ namespace TheCullingTracker {
 			new FormLoading(this.parser, this.path).ShowDialog();
 			this.Visible = true;
 		}
-
-		// Open options menu
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
-			// TODO
-		}
-
+		
 		// Open GitHub latest release
 		private void updateToolStripMenuItem_Click(object sender, EventArgs e) {
 			Process.Start("https://github.com/nvillemin/TheCullingTracker/releases/latest");

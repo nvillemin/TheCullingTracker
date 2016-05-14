@@ -84,6 +84,11 @@ namespace TheCullingTracker {
 			switch(logLine.lineType) {
 				// Wow you just hit someone
 				case LogLine.LineType.DmgTo:
+					// Check if we already encountered the player
+					if(!this.form.playerIndex.ContainsKey(logLine.player)) {
+						this.AddPlayer(logLine);
+					}
+
 					this.form.AddDamage(logLine.player, logLine.damage, false);
 					if(this.lastLine.lineType == LogLine.LineType.Kill) {
 						// You killed someone, what a beast
@@ -96,24 +101,17 @@ namespace TheCullingTracker {
 				case LogLine.LineType.DmgFrom:
 					// Unknown player is fall damage so it's not recorded
 					if(logLine.player != "UNKNOWN") {
+						// Check if we already encountered the player
+						if(!this.form.playerIndex.ContainsKey(logLine.player)) {
+							this.AddPlayer(logLine);
+						}
 						this.form.AddDamage(logLine.player, logLine.damage, true);
 					}
 					break;
 
 				// New player recorded at the start of the game
 				case LogLine.LineType.NewPlayer:
-					int games = 0, kills = 0;
-					if(this.players.ContainsKey(logLine.player)) {
-						// Already played with this player before, load data
-						Player playerData = this.players[logLine.player];
-						games = playerData.games;
-						kills = playerData.kills;
-					} else {
-						// Never played with this player, create data
-						this.players.Add(logLine.player, new Player(logLine.player));
-					}
-					this.players[logLine.player].AddGame();
-					this.form.AddPlayer(logLine.player, games, kills);
+					this.AddPlayer(logLine);
 					break;
 
 				// New state: Playing or MainMenu
@@ -132,6 +130,22 @@ namespace TheCullingTracker {
 			if(logLine.lineType != LogLine.LineType.Other) {
 				this.lastLine = logLine;
 			}
+		}
+
+		// Add a new player to the game
+		private void AddPlayer(LogLine logLine) {
+			int games = 0, kills = 0;
+			if(this.players.ContainsKey(logLine.player)) {
+				// Already played with this player before, load data
+				Player playerData = this.players[logLine.player];
+				games = playerData.games;
+				kills = playerData.kills;
+			} else {
+				// Never played with this player, create data
+				this.players.Add(logLine.player, new Player(logLine.player));
+			}
+			this.players[logLine.player].AddGame();
+			this.form.AddPlayer(logLine.player, games, kills);
 		}
 
 		// Stop the parser

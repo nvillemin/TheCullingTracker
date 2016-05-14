@@ -172,7 +172,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(244, 386);
+			this.ClientSize = new System.Drawing.Size(244, 84);
 			this.Controls.Add(this.DGV_Game);
 			this.Controls.Add(this.LB_Status);
 			this.Controls.Add(this.MS_Main);
