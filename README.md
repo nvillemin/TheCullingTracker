@@ -1,3 +1,5 @@
+#Warning - The tracker is currently outdated and will not work for the current version of the game
+
 #The Culling Tracker
 This is a real-time statistics tracker for the game **The Culling**
 
